@@ -259,6 +259,38 @@
     .arrow { text-align: center; font-size: 1.2rem; color: var(--success); margin: 4px 0; }
     .challenge-item .solution { font-size: 0.87rem; color: var(--success); font-weight: 600; }
 
+    /* ── Funnel steps ── */
+    .funnel-steps {
+      margin-top: 10px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .funnel-row {
+      display: flex; align-items: flex-start; gap: 12px;
+      background: #f8fafc;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 10px 14px;
+    }
+    .funnel-result {
+      background: #f0fdf4;
+      border-color: #86efac;
+    }
+    .funnel-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+    .funnel-row strong { font-size: 0.9rem; display: block; }
+    .funnel-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      display: block;
+      margin-top: 2px;
+    }
+    .funnel-arrow {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 1rem;
+      line-height: 1;
+      padding: 2px 0;
+    }
+
     footer {
       text-align: center;
       padding: 40px 24px;
@@ -405,9 +437,21 @@ flowchart TD
       <div class="step-body">
         <h4>活動推薦</h4>
         <p>從 AiGP 活動庫中，依多重條件篩選並推薦最適合該客戶的場次。</p>
-        <div class="step-detail">
-          <strong>篩選邏輯</strong>：排除已參加活動 → 限 14 天後場次 → 依客戶地址分區（台北/桃園/新竹/台中/台南/高雄）→ 實體場次優先、線上備選 → 高階場次優先排序<br><br>
-          <strong>地區場次 dict</strong>：每個活動預先建立「地區 → 最近場次日期」的對應字典，推薦時直接查出客戶地區的正確場次日期
+        <div class="funnel-steps">
+          <div class="funnel-row"><span class="funnel-icon">🚫</span><div><strong>排除非 AiGP 活動</strong><span class="funnel-note">韌性轉型、永豐銀行等非目標活動</span></div></div>
+          <div class="funnel-arrow">↓</div>
+          <div class="funnel-row"><span class="funnel-icon">📅</span><div><strong>場次時間篩選</strong><span class="funnel-note">只留 14 天後才開始的場次</span></div></div>
+          <div class="funnel-arrow">↓</div>
+          <div class="funnel-row"><span class="funnel-icon">✅</span><div><strong>排除已參加活動</strong><span class="funnel-note">CRMIG 有報名紀錄者不重複推薦</span></div></div>
+          <div class="funnel-arrow">↓</div>
+          <div class="funnel-row"><span class="funnel-icon">📍</span><div><strong>依客戶地址分區</strong><span class="funnel-note">台北 / 桃園 / 新竹 / 台中 / 台南 / 高雄</span></div></div>
+          <div class="funnel-arrow">↓</div>
+          <div class="funnel-row"><span class="funnel-icon">🏢</span><div><strong>實體優先，線上備選</strong><span class="funnel-note">有實體場次優先；全無實體才改推線上</span></div></div>
+          <div class="funnel-arrow">↓</div>
+          <div class="funnel-row funnel-result"><span class="funnel-icon">🏆</span><div><strong>高階場次優先排序</strong><span class="funnel-note">宣傳 = Y 的場次排在前面</span></div></div>
+        </div>
+        <div class="step-detail" style="margin-top:10px;">
+          <strong>地區場次 dict</strong>：每個活動預建「地區 → 最近場次日期」對應表，推薦時 O(1) 查出客戶地區的正確場次日期
         </div>
       </div>
     </div>
