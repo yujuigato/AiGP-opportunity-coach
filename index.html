@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AiGP 卡關商機分析系統</title>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <style>
+    :root {
+      --primary: #1a56db;
+      --primary-light: #e8f0fe;
+      --success: #0f9d58;
+      --warning: #f4b400;
+      --danger: #db4437;
+      --bg: #f8f9fa;
+      --card: #ffffff;
+      --border: #e2e8f0;
+      --text: #1a202c;
+      --text-muted: #64748b;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    header {
+      background: linear-gradient(135deg, #1a56db 0%, #0ea5e9 100%);
+      color: white;
+      padding: 60px 40px;
+      text-align: center;
+    }
+    header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; }
+    header p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+    .badge-row {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
+      margin-top: 24px;
+    }
+    .badge {
+      background: rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-size: 0.9rem;
+    }
+    main { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
+    section { margin-bottom: 48px; }
+    h2 {
+      font-size: 1.5rem; font-weight: 700;
+      color: var(--primary);
+      border-left: 4px solid var(--primary);
+      padding-left: 12px;
+      margin-bottom: 20px;
+    }
+    h3 { font-size: 1.1rem; font-weight: 600; margin: 20px 0 10px; color: #374151; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .stat-card {
+      background: var(--primary-light);
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+    }
+    .stat-card .number { font-size: 2rem; font-weight: 700; color: var(--primary); }
+    .stat-card .label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
+    table {
+      width: 100%; border-collapse: collapse; margin: 12px 0;
+      font-size: 0.95rem;
+    }
+    th {
+      background: #f1f5f9;
+      padding: 10px 14px;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border);
+    }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8fafc; }
+    .mermaid { background: white; border-radius: 8px; padding: 20px; margin: 12px 0; }
+    .tag {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 12px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .tag-green { background: #dcfce7; color: #166534; }
+    .tag-blue  { background: #dbeafe; color: #1e40af; }
+    .tag-amber { background: #fef3c7; color: #92400e; }
+    .tag-red   { background: #fee2e2; color: #991b1b; }
+    .tech-stack {
+      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;
+    }
+    .tech-chip {
+      background: #f1f5f9;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 8px 16px;
+      font-size: 0.9rem;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .tech-chip .icon { font-size: 1.2rem; }
+    .flow-step {
+      display: flex; align-items: flex-start; gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .flow-step:last-child { border-bottom: none; }
+    .step-num {
+      min-width: 32px; height: 32px;
+      background: var(--primary);
+      color: white;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 0.9rem;
+    }
+    .step-content h4 { font-weight: 600; margin-bottom: 4px; }
+    .step-content p { font-size: 0.9rem; color: var(--text-muted); }
+    .bar-container { margin: 8px 0; }
+    .bar-label {
+      display: flex; justify-content: space-between;
+      font-size: 0.9rem; margin-bottom: 4px;
+    }
+    .bar-track {
+      background: #e2e8f0;
+      border-radius: 4px;
+      height: 10px;
+      overflow: hidden;
+    }
+    .bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--primary);
+      transition: width 0.5s ease;
+    }
+    footer {
+      text-align: center;
+      padding: 32px;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>AiGP 卡關商機分析系統</h1>
+  <p>自動從 CRM 撈取卡關商機，透過 Gemini AI 分析卡關原因、生成個人化業務話術並推薦活動邀約</p>
+  <div class="badge-row">
+    <span class="badge">🤖 Gemini 2.5 Pro</span>
+    <span class="badge">🐍 Python 3.x</span>
+    <span class="badge">📊 SQL Server</span>
+    <span class="badge">⚡ 15 執行緒平行</span>
+  </div>
+</header>
+
+<main>
+
+  <!-- 效益數字 -->
+  <section>
+    <h2>系統效益</h2>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="number">~220</div>
+        <div class="label">每日自動分析筆數</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">97%</div>
+        <div class="label">推薦活動邀約比例</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">5–8 分</div>
+        <div class="label">首次執行時間</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">&lt; 1 分</div>
+        <div class="label">快取命中執行時間</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 執行流程 -->
+  <section>
+    <h2>執行流程</h2>
+    <div class="card">
+      <div class="flow-step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>名單篩選</h4>
+          <p>從 CRM 撈取含 AiGP 的 C1/C2 商機，依建立天數分為現行卡關（31–60天）與逾期卡關（>60天）</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>互動欄位計算</h4>
+          <p>計算近期日報、高階接觸、活動參與、最後日報日期等欄位</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>AI 卡關原因判斷</h4>
+          <p>Gemini AI 判斷「沒談到高階 / 信任不足 / 沒參加活動 / 場景模糊」（可多選），結果快取避免重複呼叫</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>痛點 / 需求 / 洞察整合</h4>
+          <p>整合客戶 L1–L7 痛點、需求、洞察資料，作為話術生成的輸入</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>經營狀況 &amp; 商機等級判斷</h4>
+          <p>依最後日報距今天數判斷經營狀況；逾期卡關移除 D 級（完全無行動）</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">6</div>
+        <div class="step-content">
+          <h4>活動推薦</h4>
+          <p>依客戶地區、已參加活動、場次時間，從 AiGP 活動庫推薦最適合的活動（實體優先）</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">7</div>
+        <div class="step-content">
+          <h4>個人化業務話術生成</h4>
+          <p>Gemini AI 結合痛點、卡關原因、推薦活動生成針對每筆商機的業務突破話術（15 執行緒平行）</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="step-num">8</div>
+        <div class="step-content">
+          <h4>Excel 輸出</h4>
+          <p>輸出含 112 個欄位的完整分析結果，供業務人員每日使用</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 整體流程圖 -->
+  <section>
+    <h2>系統流程圖</h2>
+    <div class="card">
+      <div class="mermaid">
+flowchart TD
+    A[CRM 資料庫] -->|每日撈取| B[名單篩選]
+    B --> C{卡關類型判斷}
+    C -->|31–60天| D[現行卡關]
+    C -->|超過60天 + 近期有日報| E[逾期卡關]
+    D & E --> F[互動欄位計算]
+    F --> G[AI 卡關原因判斷\nGemini AI]
+    G --> H[痛點 / 需求 / 洞察整合]
+    H --> I[經營狀況判斷]
+    I --> J[商機等級判斷]
+    J -->|移除 D 級逾期卡關| K[活動推薦]
+    K --> L[AI 業務話術生成\nGemini AI]
+    L --> M[每日 Excel 輸出]
+    style G fill:#1a56db,color:#fff,rx:8
+    style L fill:#1a56db,color:#fff,rx:8
+      </div>
+    </div>
+  </section>
+
+  <!-- 卡關分析邏輯 -->
+  <section>
+    <h2>卡關分析邏輯</h2>
+    <div class="card">
+      <h3>兩種卡關類型</h3>
+      <table>
+        <tr>
+          <th>類型</th>
+          <th>條件</th>
+          <th>備註</th>
+        </tr>
+        <tr>
+          <td><strong>現行卡關</strong></td>
+          <td>商機建立距今 31–60 天</td>
+          <td>含 AiGP、老客、尚未升等至 B/A</td>
+        </tr>
+        <tr>
+          <td><strong>逾期卡關</strong></td>
+          <td>商機建立距今 &gt; 60 天<br>+ 近 90 天有業務日報<br>+ 日報等級 C1/B（非 D 級）</td>
+          <td>D 級（無行動）不納入分析</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>四種卡關類別（可多選）</h3>
+      <table>
+        <tr><th>卡關類別</th><th>判斷依據</th></tr>
+        <tr>
+          <td><span class="tag tag-red">沒談到高階</span></td>
+          <td>近期無高階主管或核決者接觸記錄</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-amber">信任不足</span></td>
+          <td>客戶需求、洞察、解決方案記錄不完整</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-blue">沒參加活動</span></td>
+          <td>近期無 AiGP 活動參與記錄</td>
+        </tr>
+        <tr>
+          <td><span class="tag tag-red">場景模糊</span></td>
+          <td>痛點、需求、洞察資料缺乏</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <h3>經營狀況判斷（依最後日報距今天數）</h3>
+      <div class="bar-container">
+        <div class="bar-label"><span>🟢 高度活躍（≤ 7 天）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:100%;background:#0f9d58"></div></div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label"><span>🟡 中度活躍（8–30 天）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:75%;background:#f4b400"></div></div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label"><span>🟠 低度經營（31–90 天）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:50%;background:#ff6d00"></div></div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label"><span>🔴 已停止經營（&gt; 90 天或無日報）</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:25%;background:#db4437"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 活動推薦 -->
+  <section>
+    <h2>活動推薦邏輯</h2>
+    <div class="card">
+      <div class="mermaid">
+flowchart LR
+    A[所有 AiGP 活動] -->|排除非 AiGP| B[有效活動池]
+    B -->|14天後場次| C[時間篩選]
+    C -->|排除已參加| D[未參加活動]
+    D -->|依客戶地址分區| E[地區篩選]
+    E -->|實體優先 線上備選| F[候選活動]
+    F -->|高階場優先排序| G[推薦活動]
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <tr><th>推薦欄位</th><th>說明</th></tr>
+        <tr><td>推薦活動</td><td>活動名稱</td></tr>
+        <tr><td>推薦活動時間</td><td>客戶所在地區的最近場次日期</td></tr>
+        <tr><td>推薦活動地區</td><td>台北 / 桃園 / 新竹 / 台中 / 台南 / 高雄</td></tr>
+        <tr><td>推薦活動信任類型</td><td>知道（認識） / 認同（接受） / 相信（深度認可）</td></tr>
+        <tr><td>是否需要邀約活動</td><td>Y / N</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 話術生成 -->
+  <section>
+    <h2>業務話術生成</h2>
+    <div class="card">
+      <div class="mermaid">
+flowchart LR
+    A[客戶痛點\n需求\n洞察] --> D[Gemini AI\ngemini-2.5-pro]
+    B[卡關類型\n卡關類別\n經營狀況] --> D
+    C[推薦活動\n信任類型\n聯絡人姓名] --> D
+    D --> E[個人化業務突破話術]
+      </div>
+    </div>
+    <div class="card">
+      <table>
+        <tr><th>項目</th><th>說明</th></tr>
+        <tr><td>AI 模型</td><td>Google Gemini 2.5 Pro（Vertex AI）</td></tr>
+        <tr><td>生成方式</td><td>Prompt Engineering（無 RAG、無 Fine-tuning）</td></tr>
+        <tr><td>執行效率</td><td>15 執行緒平行，5–8 分鐘完成 220 筆</td></tr>
+        <tr><td>快取設計</td><td>相同商機資料不重複呼叫 API（卡關判斷 + 話術各自快取）</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- 執行結果 -->
+  <section>
+    <h2>執行結果（2026-06-11）</h2>
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="number">127</div>
+        <div class="label">現行卡關（31–60天）</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">92</div>
+        <div class="label">逾期卡關（D 級移除後）</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">219</div>
+        <div class="label">最終分析總筆數</div>
+      </div>
+      <div class="stat-card">
+        <div class="number">213</div>
+        <div class="label">需要邀約活動（97%）</div>
+      </div>
+    </div>
+    <div class="card">
+      <h3>卡關類別分布</h3>
+      <div class="bar-container">
+        <div class="bar-label"><span>沒談到高階</span><span>81.7%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:81.7%"></div></div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label"><span>信任不足</span><span>81.7%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:81.7%"></div></div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label"><span>沒參加活動</span><span>63.0%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:63%"></div></div>
+      </div>
+      <div class="bar-container">
+        <div class="bar-label"><span>場景模糊</span><span>38.9%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:38.9%"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 技術架構 -->
+  <section>
+    <h2>技術架構</h2>
+    <div class="card">
+      <div class="tech-stack">
+        <div class="tech-chip"><span class="icon">🐍</span> Python 3.x</div>
+        <div class="tech-chip"><span class="icon">🤖</span> Google Gemini 2.5 Pro</div>
+        <div class="tech-chip"><span class="icon">☁️</span> Vertex AI（global）</div>
+        <div class="tech-chip"><span class="icon">🗄️</span> SQL Server（ODBC）</div>
+        <div class="tech-chip"><span class="icon">📊</span> openpyxl / pandas</div>
+        <div class="tech-chip"><span class="icon">⚡</span> 15 執行緒平行</div>
+        <div class="tech-chip"><span class="icon">💾</span> JSON 快取機制</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>AiGP 卡關商機分析系統 &nbsp;|&nbsp; 最後更新：2026-06-11</p>
+</footer>
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'base',
+    themeVariables: {
+      primaryColor: '#dbeafe',
+      primaryTextColor: '#1e40af',
+      primaryBorderColor: '#93c5fd',
+      lineColor: '#64748b',
+      secondaryColor: '#f1f5f9',
+      tertiaryColor: '#fff'
+    }
+  });
+</script>
+</body>
+</html>
