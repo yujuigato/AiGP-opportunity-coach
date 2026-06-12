@@ -3,70 +3,145 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AiGP 卡關商機分析系統</title>
+  <title>AiGP Opportunity Coach｜AI 驅動的業務商機分析系統</title>
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <style>
     :root {
-      --primary: #1a56db;
-      --primary-light: #e8f0fe;
-      --success: #0f9d58;
-      --warning: #f4b400;
-      --danger: #db4437;
-      --bg: #f8f9fa;
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --primary-light: #eff6ff;
+      --accent: #7c3aed;
+      --success: #059669;
+      --warning: #d97706;
+      --danger: #dc2626;
+      --bg: #f8fafc;
       --card: #ffffff;
       --border: #e2e8f0;
-      --text: #1a202c;
+      --text: #0f172a;
       --text-muted: #64748b;
+      --text-light: #94a3b8;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', sans-serif;
+      font-family: -apple-system, 'PingFang TC', 'Microsoft JhengHei', 'Noto Sans TC', sans-serif;
       background: var(--bg);
       color: var(--text);
-      line-height: 1.7;
+      line-height: 1.8;
     }
+
+    /* ── Hero ── */
     header {
-      background: linear-gradient(135deg, #1a56db 0%, #0ea5e9 100%);
+      background: linear-gradient(135deg, #1e3a8a 0%, #2563eb 50%, #7c3aed 100%);
       color: white;
-      padding: 60px 40px;
+      padding: 72px 40px 56px;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
-    header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 12px; }
-    header p { font-size: 1.1rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
-    .badge-row {
-      display: flex; flex-wrap: wrap; justify-content: center; gap: 12px;
-      margin-top: 24px;
+    header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
     }
-    .badge {
-      background: rgba(255,255,255,0.2);
-      border: 1px solid rgba(255,255,255,0.4);
+    .hero-tag {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 20px;
+      padding: 5px 16px;
+      font-size: 0.85rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+    header h1 {
+      font-size: 2.6rem;
+      font-weight: 800;
+      margin-bottom: 16px;
+      line-height: 1.2;
+    }
+    header h1 span { color: #93c5fd; }
+    header .subtitle {
+      font-size: 1.15rem;
+      opacity: 0.85;
+      max-width: 620px;
+      margin: 0 auto 28px;
+    }
+    .tech-pills {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;
+      margin-bottom: 32px;
+    }
+    .tech-pill {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
       border-radius: 20px;
       padding: 6px 16px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
+      font-weight: 500;
     }
-    main { max-width: 1000px; margin: 0 auto; padding: 40px 24px; }
-    section { margin-bottom: 48px; }
-    h2 {
-      font-size: 1.5rem; font-weight: 700;
+    .hero-stats {
+      display: flex; justify-content: center; gap: 40px; flex-wrap: wrap;
+      padding-top: 24px;
+      border-top: 1px solid rgba(255,255,255,0.2);
+    }
+    .hero-stat .num { font-size: 2rem; font-weight: 800; }
+    .hero-stat .lbl { font-size: 0.8rem; opacity: 0.75; margin-top: 2px; }
+
+    /* ── Layout ── */
+    main { max-width: 960px; margin: 0 auto; padding: 48px 24px; }
+    section { margin-bottom: 56px; }
+
+    /* ── Headings ── */
+    .section-label {
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
       color: var(--primary);
-      border-left: 4px solid var(--primary);
-      padding-left: 12px;
-      margin-bottom: 20px;
+      margin-bottom: 8px;
     }
-    h3 { font-size: 1.1rem; font-weight: 600; margin: 20px 0 10px; color: #374151; }
+    h2 {
+      font-size: 1.65rem; font-weight: 800;
+      color: var(--text);
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
+    .section-desc {
+      font-size: 1rem; color: var(--text-muted);
+      margin-bottom: 24px;
+      max-width: 680px;
+    }
+    h3 { font-size: 1.05rem; font-weight: 700; margin: 20px 0 8px; }
+
+    /* ── Cards ── */
     .card {
       background: var(--card);
       border: 1px solid var(--border);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 24px;
       margin-bottom: 16px;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
     }
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+    }
+    .problem-card {
+      border-left: 4px solid var(--danger);
+      background: #fff5f5;
+    }
+    .solution-card {
+      border-left: 4px solid var(--success);
+      background: #f0fdf4;
+    }
+    .problem-card h3 { color: var(--danger); }
+    .solution-card h3 { color: var(--success); }
+
+    /* ── Stats ── */
     .stat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 16px;
-      margin-bottom: 24px;
     }
     .stat-card {
       background: var(--primary-light);
@@ -74,392 +149,522 @@
       padding: 20px;
       text-align: center;
     }
-    .stat-card .number { font-size: 2rem; font-weight: 700; color: var(--primary); }
-    .stat-card .label { font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; }
-    table {
-      width: 100%; border-collapse: collapse; margin: 12px 0;
-      font-size: 0.95rem;
-    }
-    th {
-      background: #f1f5f9;
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 600;
-      border-bottom: 2px solid var(--border);
-    }
-    td { padding: 10px 14px; border-bottom: 1px solid var(--border); }
-    tr:last-child td { border-bottom: none; }
-    tr:hover td { background: #f8fafc; }
-    .mermaid { background: white; border-radius: 8px; padding: 20px; margin: 12px 0; }
-    .tag {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 12px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-    .tag-green { background: #dcfce7; color: #166534; }
-    .tag-blue  { background: #dbeafe; color: #1e40af; }
-    .tag-amber { background: #fef3c7; color: #92400e; }
-    .tag-red   { background: #fee2e2; color: #991b1b; }
-    .tech-stack {
-      display: flex; flex-wrap: wrap; gap: 10px; margin-top: 12px;
-    }
-    .tech-chip {
-      background: #f1f5f9;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 8px 16px;
-      font-size: 0.9rem;
-      display: flex; align-items: center; gap: 8px;
-    }
-    .tech-chip .icon { font-size: 1.2rem; }
-    .flow-step {
-      display: flex; align-items: flex-start; gap: 16px;
-      padding: 14px 0;
+    .stat-card .number { font-size: 2rem; font-weight: 800; color: var(--primary); }
+    .stat-card .label { font-size: 0.82rem; color: var(--text-muted); margin-top: 4px; }
+
+    /* ── Timeline / Steps ── */
+    .steps { display: flex; flex-direction: column; gap: 0; }
+    .step {
+      display: flex; gap: 20px;
+      padding: 20px 0;
       border-bottom: 1px solid var(--border);
+      position: relative;
     }
-    .flow-step:last-child { border-bottom: none; }
+    .step:last-child { border-bottom: none; }
+    .step-left { display: flex; flex-direction: column; align-items: center; min-width: 40px; }
     .step-num {
-      min-width: 32px; height: 32px;
+      width: 36px; height: 36px;
       background: var(--primary);
       color: white;
       border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; font-size: 0.9rem;
+      flex-shrink: 0;
     }
-    .step-content h4 { font-weight: 600; margin-bottom: 4px; }
-    .step-content p { font-size: 0.9rem; color: var(--text-muted); }
-    .bar-container { margin: 8px 0; }
-    .bar-label {
-      display: flex; justify-content: space-between;
-      font-size: 0.9rem; margin-bottom: 4px;
+    .step-line {
+      width: 2px; background: var(--border);
+      flex: 1; min-height: 20px; margin-top: 6px;
     }
-    .bar-track {
-      background: #e2e8f0;
-      border-radius: 4px;
-      height: 10px;
-      overflow: hidden;
+    .step:last-child .step-line { display: none; }
+    .step-body h4 { font-weight: 700; font-size: 1rem; margin-bottom: 4px; }
+    .step-body p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 6px; }
+    .step-detail {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.85rem;
+      color: #475569;
+      margin-top: 8px;
+      border: 1px solid var(--border);
     }
-    .bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      background: var(--primary);
-      transition: width 0.5s ease;
+
+    /* ── Mermaid ── */
+    .mermaid {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin: 12px 0;
+      overflow-x: auto;
     }
+
+    /* ── Table ── */
+    table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
+    th { background: #f1f5f9; padding: 10px 14px; text-align: left; font-weight: 600; border-bottom: 2px solid var(--border); }
+    td { padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8fafc; }
+
+    /* ── Tags ── */
+    .tag { display: inline-block; padding: 2px 10px; border-radius: 12px; font-size: 0.8rem; font-weight: 600; }
+    .tag-red   { background: #fee2e2; color: #991b1b; }
+    .tag-amber { background: #fef3c7; color: #92400e; }
+    .tag-blue  { background: #dbeafe; color: #1e40af; }
+    .tag-purple{ background: #ede9fe; color: #5b21b6; }
+    .tag-green { background: #dcfce7; color: #166534; }
+
+    /* ── Tech Stack ── */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 12px;
+    }
+    .tech-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px 16px;
+    }
+    .tech-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .tech-name { font-weight: 700; font-size: 0.9rem; }
+    .tech-desc { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* ── Highlight box ── */
+    .highlight-box {
+      background: linear-gradient(135deg, #eff6ff, #faf5ff);
+      border: 1px solid #c7d2fe;
+      border-radius: 12px;
+      padding: 20px 24px;
+      margin: 16px 0;
+    }
+    .highlight-box h4 { font-weight: 700; color: var(--accent); margin-bottom: 8px; }
+
+    /* ── Bar ── */
+    .bar-row { margin: 10px 0; }
+    .bar-label { display: flex; justify-content: space-between; font-size: 0.88rem; margin-bottom: 5px; }
+    .bar-track { background: #e2e8f0; border-radius: 6px; height: 10px; overflow: hidden; }
+    .bar-fill  { height: 100%; border-radius: 6px; transition: width 0.6s ease; }
+
+    /* ── Challenge ── */
+    .challenge-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .challenge-item {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 18px;
+    }
+    .challenge-item .ch-label { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warning); margin-bottom: 6px; }
+    .challenge-item h4 { font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+    .challenge-item p { font-size: 0.87rem; color: var(--text-muted); }
+    .arrow { text-align: center; font-size: 1.2rem; color: var(--success); margin: 4px 0; }
+    .challenge-item .solution { font-size: 0.87rem; color: var(--success); font-weight: 600; }
+
     footer {
       text-align: center;
-      padding: 32px;
+      padding: 40px 24px;
       color: var(--text-muted);
       font-size: 0.85rem;
       border-top: 1px solid var(--border);
     }
+    footer a { color: var(--primary); text-decoration: none; }
   </style>
 </head>
 <body>
 
+<!-- ═══════════════ HERO ═══════════════ -->
 <header>
-  <h1>AiGP 卡關商機分析系統</h1>
-  <p>自動從 CRM 撈取卡關商機，透過 Gemini AI 分析卡關原因、生成個人化業務話術並推薦活動邀約</p>
-  <div class="badge-row">
-    <span class="badge">🤖 Gemini 2.5 Pro</span>
-    <span class="badge">🐍 Python 3.x</span>
-    <span class="badge">📊 SQL Server</span>
-    <span class="badge">⚡ 15 執行緒平行</span>
+  <div class="hero-tag">🤖 AI × CRM × 業務自動化</div>
+  <h1>AiGP <span>Opportunity Coach</span></h1>
+  <p class="subtitle">
+    自動分析 CRM 中的停滯商機、找出卡關原因，並透過 Gemini AI 為每一位客戶生成個人化的業務突破話術與活動推薦
+  </p>
+  <div class="tech-pills">
+    <span class="tech-pill">Python</span>
+    <span class="tech-pill">Google Gemini 2.5 Pro</span>
+    <span class="tech-pill">Vertex AI</span>
+    <span class="tech-pill">SQL Server</span>
+    <span class="tech-pill">Prompt Engineering</span>
+    <span class="tech-pill">Multi-threading</span>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><div class="num">~220</div><div class="lbl">每日自動分析筆數</div></div>
+    <div class="hero-stat"><div class="num">97%</div><div class="lbl">成功推薦活動邀約</div></div>
+    <div class="hero-stat"><div class="num">5–8 分</div><div class="lbl">全程 AI 生成時間</div></div>
+    <div class="hero-stat"><div class="num">2 層</div><div class="lbl">快取設計節省 API 費用</div></div>
   </div>
 </header>
 
 <main>
 
-  <!-- 效益數字 -->
-  <section>
-    <h2>系統效益</h2>
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="number">~220</div>
-        <div class="label">每日自動分析筆數</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">97%</div>
-        <div class="label">推薦活動邀約比例</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">5–8 分</div>
-        <div class="label">首次執行時間</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">&lt; 1 分</div>
-        <div class="label">快取命中執行時間</div>
-      </div>
+<!-- ═══════════════ BACKGROUND ═══════════════ -->
+<section>
+  <div class="section-label">Background</div>
+  <h2>這個系統在解決什麼問題？</h2>
+  <p class="section-desc">
+    業務團隊每天面對數百筆停滯商機，難以判斷哪些值得繼續跟進、該怎麼切入、適合邀請客戶參加哪場活動。
+    過去這些分析完全依賴人工，耗時且缺乏一致性。
+  </p>
+  <div class="card-grid">
+    <div class="card problem-card">
+      <h3>😣 過去的痛點</h3>
+      <ul style="padding-left:18px; font-size:0.92rem; color:#374151; margin-top:8px;">
+        <li style="margin-bottom:8px">數百筆停滯商機，業務不知道從哪裡開始</li>
+        <li style="margin-bottom:8px">卡關原因不明確，話術千篇一律</li>
+        <li style="margin-bottom:8px">活動場次眾多，難以判斷哪場最適合哪位客戶</li>
+        <li>人工分析耗時，每天要重複同樣的判斷流程</li>
+      </ul>
     </div>
-  </section>
-
-  <!-- 執行流程 -->
-  <section>
-    <h2>執行流程</h2>
-    <div class="card">
-      <div class="flow-step">
-        <div class="step-num">1</div>
-        <div class="step-content">
-          <h4>名單篩選</h4>
-          <p>從 CRM 撈取含 AiGP 的 C1/C2 商機，依建立天數分為現行卡關（31–60天）與逾期卡關（>60天）</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="step-num">2</div>
-        <div class="step-content">
-          <h4>互動欄位計算</h4>
-          <p>計算近期日報、高階接觸、活動參與、最後日報日期等欄位</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="step-num">3</div>
-        <div class="step-content">
-          <h4>AI 卡關原因判斷</h4>
-          <p>Gemini AI 判斷「沒談到高階 / 信任不足 / 沒參加活動 / 場景模糊」（可多選），結果快取避免重複呼叫</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="step-num">4</div>
-        <div class="step-content">
-          <h4>痛點 / 需求 / 洞察整合</h4>
-          <p>整合客戶 L1–L7 痛點、需求、洞察資料，作為話術生成的輸入</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="step-num">5</div>
-        <div class="step-content">
-          <h4>經營狀況 &amp; 商機等級判斷</h4>
-          <p>依最後日報距今天數判斷經營狀況；逾期卡關移除 D 級（完全無行動）</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="step-num">6</div>
-        <div class="step-content">
-          <h4>活動推薦</h4>
-          <p>依客戶地區、已參加活動、場次時間，從 AiGP 活動庫推薦最適合的活動（實體優先）</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="step-num">7</div>
-        <div class="step-content">
-          <h4>個人化業務話術生成</h4>
-          <p>Gemini AI 結合痛點、卡關原因、推薦活動生成針對每筆商機的業務突破話術（15 執行緒平行）</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="step-num">8</div>
-        <div class="step-content">
-          <h4>Excel 輸出</h4>
-          <p>輸出含 112 個欄位的完整分析結果，供業務人員每日使用</p>
-        </div>
-      </div>
+    <div class="card solution-card">
+      <h3>✅ 系統如何解決</h3>
+      <ul style="padding-left:18px; font-size:0.92rem; color:#374151; margin-top:8px;">
+        <li style="margin-bottom:8px">每日自動從 CRM 撈取並篩選卡關商機</li>
+        <li style="margin-bottom:8px">AI 分析每筆商機的卡關原因（4 種類別可多選）</li>
+        <li style="margin-bottom:8px">依客戶地區、已參加紀錄推薦最適合的活動場次</li>
+        <li>Gemini AI 為每筆商機生成個人化業務突破話術</li>
+      </ul>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- 整體流程圖 -->
-  <section>
-    <h2>系統流程圖</h2>
-    <div class="card">
-      <div class="mermaid">
+<!-- ═══════════════ HOW IT WORKS ═══════════════ -->
+<section>
+  <div class="section-label">How It Works</div>
+  <h2>系統如何運作？</h2>
+  <p class="section-desc">
+    從資料擷取到 AI 輸出，整個流程全自動執行，每天 5–8 分鐘完成 ~220 筆分析。
+  </p>
+
+  <div class="card" style="margin-bottom:24px;">
+    <div class="mermaid">
 flowchart TD
-    A[CRM 資料庫] -->|每日撈取| B[名單篩選]
-    B --> C{卡關類型判斷}
-    C -->|31–60天| D[現行卡關]
-    C -->|超過60天 + 近期有日報| E[逾期卡關]
-    D & E --> F[互動欄位計算]
-    F --> G[AI 卡關原因判斷\nGemini AI]
-    G --> H[痛點 / 需求 / 洞察整合]
-    H --> I[經營狀況判斷]
-    I --> J[商機等級判斷]
-    J -->|移除 D 級逾期卡關| K[活動推薦]
-    K --> L[AI 業務話術生成\nGemini AI]
-    L --> M[每日 Excel 輸出]
-    style G fill:#1a56db,color:#fff,rx:8
-    style L fill:#1a56db,color:#fff,rx:8
-      </div>
+    A[("🗄️ CRM 資料庫")] -->|每日自動撈取| B["📋 名單篩選\n商機狀態 × 建立天數 × 產品線"]
+    B --> C{"卡關類型？"}
+    C -->|"31–60天"| D["🟡 現行卡關\n127 筆"]
+    C -->|">60天 + 近期有日報"| E["🔴 逾期卡關\n92 筆"]
+    D & E --> F["📊 互動分析\n日報次數 × 高階接觸 × 活動參與"]
+    F --> G[("🤖 Gemini AI\n卡關原因判斷")]
+    G --> H["📁 L1–L7 資料整合\n痛點 × 需求 × 洞察"]
+    H --> I["🎯 活動推薦\n地區 × 場次 × 已參加過濾"]
+    I --> J[("🤖 Gemini AI\n個人化話術生成\n15 執行緒平行")]
+    J --> K["📊 每日 Excel 輸出\n112 欄位 × 219 筆"]
+    style G fill:#4f46e5,color:#fff
+    style J fill:#4f46e5,color:#fff
+    style A fill:#0f172a,color:#fff
+    style K fill:#059669,color:#fff
     </div>
-  </section>
+  </div>
 
-  <!-- 卡關分析邏輯 -->
-  <section>
-    <h2>卡關分析邏輯</h2>
-    <div class="card">
-      <h3>兩種卡關類型</h3>
-      <table>
-        <tr>
-          <th>類型</th>
-          <th>條件</th>
-          <th>備註</th>
-        </tr>
-        <tr>
-          <td><strong>現行卡關</strong></td>
-          <td>商機建立距今 31–60 天</td>
-          <td>含 AiGP、老客、尚未升等至 B/A</td>
-        </tr>
-        <tr>
-          <td><strong>逾期卡關</strong></td>
-          <td>商機建立距今 &gt; 60 天<br>+ 近 90 天有業務日報<br>+ 日報等級 C1/B（非 D 級）</td>
-          <td>D 級（無行動）不納入分析</td>
-        </tr>
-      </table>
+  <div class="steps">
+    <div class="step">
+      <div class="step-left"><div class="step-num">1</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h4>CRM 名單篩選</h4>
+        <p>每日從 SQL Server 撈取含 AiGP 的停滯商機，依建立天數分兩類卡關。</p>
+        <div class="step-detail">
+          <strong>現行卡關</strong>：商機建立 31–60 天，商機等級 C1/C2，尚未升等，老客（有 ERP 系統）<br>
+          <strong>逾期卡關</strong>：超過 60 天，且近 90 天內仍有業務日報、等級非 D 級（有持續跟進）
+        </div>
+      </div>
     </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">2</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h4>互動欄位計算</h4>
+        <p>從日報、活動報名紀錄計算每筆商機的互動指標。</p>
+        <div class="step-detail">
+          近期是否有業務日報 × 是否接觸高階主管或核決者 × 是否有參加 AiGP 活動 × 最後日報距今天數
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">3</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h4>AI 卡關原因判斷</h4>
+        <p>Gemini AI 綜合互動指標與客戶資料，輸出一到多個卡關類別。</p>
+        <div class="step-detail">
+          <span class="tag tag-red">沒談到高階</span>&nbsp;
+          <span class="tag tag-amber">信任不足</span>&nbsp;
+          <span class="tag tag-blue">沒參加活動</span>&nbsp;
+          <span class="tag tag-purple">場景模糊</span>
+          <br><br>判斷結果以 <strong>hash 快取</strong>，相同商機資料不重複呼叫 API
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">4</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h4>痛點 × 需求 × 洞察整合</h4>
+        <p>從 17 萬家企業資料庫中匹配每筆商機的客戶，取出 L1–L7 七個層級的業務資料作為 AI 輸入。</p>
+        <div class="step-detail">
+          痛點（L1/L3/L5）× 需求（L2/L4）× 洞察（L6/L7）
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">5</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h4>活動推薦</h4>
+        <p>從 AiGP 活動庫中，依多重條件篩選並推薦最適合該客戶的場次。</p>
+        <div class="step-detail">
+          <strong>篩選邏輯</strong>：排除已參加活動 → 限 14 天後場次 → 依客戶地址分區（台北/桃園/新竹/台中/台南/高雄）→ 實體場次優先、線上備選 → 高階場次優先排序<br><br>
+          <strong>地區場次 dict</strong>：每個活動預先建立「地區 → 最近場次日期」的對應字典，推薦時直接查出客戶地區的正確場次日期
+        </div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-left"><div class="step-num">6</div><div class="step-line"></div></div>
+      <div class="step-body">
+        <h4>個人化業務話術生成</h4>
+        <p>Gemini AI 結合所有資料，為每筆商機生成針對性的業務突破話術。</p>
+        <div class="step-detail">
+          <strong>Prompt 輸入</strong>：客戶痛點 + 需求 + 洞察 + 卡關類別 + 建立天數 + 經營狀況 + 推薦活動 + 信任類型 + 聯絡人姓名<br><br>
+          <strong>執行方式</strong>：15 個執行緒平行呼叫 Vertex AI，~220 筆約 5–8 分鐘完成
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-    <div class="card">
-      <h3>四種卡關類別（可多選）</h3>
-      <table>
-        <tr><th>卡關類別</th><th>判斷依據</th></tr>
-        <tr>
-          <td><span class="tag tag-red">沒談到高階</span></td>
-          <td>近期無高階主管或核決者接觸記錄</td>
-        </tr>
-        <tr>
-          <td><span class="tag tag-amber">信任不足</span></td>
-          <td>客戶需求、洞察、解決方案記錄不完整</td>
-        </tr>
-        <tr>
-          <td><span class="tag tag-blue">沒參加活動</span></td>
-          <td>近期無 AiGP 活動參與記錄</td>
-        </tr>
-        <tr>
-          <td><span class="tag tag-red">場景模糊</span></td>
-          <td>痛點、需求、洞察資料缺乏</td>
-        </tr>
-      </table>
-    </div>
+<!-- ═══════════════ AI DESIGN ═══════════════ -->
+<section>
+  <div class="section-label">AI Design</div>
+  <h2>AI 的使用方式</h2>
+  <p class="section-desc">
+    本系統使用 Prompt Engineering 搭配 Google Gemini 2.5 Pro，清楚說明為何不選 RAG 或 Fine-tuning。
+  </p>
 
-    <div class="card">
-      <h3>經營狀況判斷（依最後日報距今天數）</h3>
-      <div class="bar-container">
-        <div class="bar-label"><span>🟢 高度活躍（≤ 7 天）</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:100%;background:#0f9d58"></div></div>
-      </div>
-      <div class="bar-container">
-        <div class="bar-label"><span>🟡 中度活躍（8–30 天）</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:75%;background:#f4b400"></div></div>
-      </div>
-      <div class="bar-container">
-        <div class="bar-label"><span>🟠 低度經營（31–90 天）</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:50%;background:#ff6d00"></div></div>
-      </div>
-      <div class="bar-container">
-        <div class="bar-label"><span>🔴 已停止經營（&gt; 90 天或無日報）</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:25%;background:#db4437"></div></div>
-      </div>
-    </div>
-  </section>
+  <div class="highlight-box">
+    <h4>為什麼選擇 Prompt Engineering？</h4>
+    <p style="font-size:0.92rem; color:#374151; margin-top:6px;">
+      每筆商機的所有相關資料（痛點、需求、洞察、互動記錄）都已結構化地存在 CRM 中，
+      可以直接組進 prompt，不需要向量資料庫或 embedding 搜尋（RAG 無必要）。
+      商業邏輯規則清晰且會持續演進，Fine-tuning 反而難以快速調整。
+      Prompt Engineering 讓每次迭代可以在幾分鐘內完成，最符合實際業務需求。
+    </p>
+  </div>
 
-  <!-- 活動推薦 -->
-  <section>
-    <h2>活動推薦邏輯</h2>
-    <div class="card">
-      <div class="mermaid">
-flowchart LR
-    A[所有 AiGP 活動] -->|排除非 AiGP| B[有效活動池]
-    B -->|14天後場次| C[時間篩選]
-    C -->|排除已參加| D[未參加活動]
-    D -->|依客戶地址分區| E[地區篩選]
-    E -->|實體優先 線上備選| F[候選活動]
-    F -->|高階場優先排序| G[推薦活動]
-      </div>
-    </div>
-    <div class="card">
-      <table>
-        <tr><th>推薦欄位</th><th>說明</th></tr>
-        <tr><td>推薦活動</td><td>活動名稱</td></tr>
-        <tr><td>推薦活動時間</td><td>客戶所在地區的最近場次日期</td></tr>
-        <tr><td>推薦活動地區</td><td>台北 / 桃園 / 新竹 / 台中 / 台南 / 高雄</td></tr>
-        <tr><td>推薦活動信任類型</td><td>知道（認識） / 認同（接受） / 相信（深度認可）</td></tr>
-        <tr><td>是否需要邀約活動</td><td>Y / N</td></tr>
-      </table>
-    </div>
-  </section>
+  <div class="card">
+    <h3>Prompt 結構</h3>
+    <table>
+      <tr><th>區塊</th><th>內容</th><th>目的</th></tr>
+      <tr>
+        <td><span class="tag tag-purple">角色設定</span></td>
+        <td>你是資深業務主管，正在協助分析一筆卡關商機</td>
+        <td>引導模型以業務視角思考</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-blue">客戶資料</span></td>
+        <td>痛點、需求、洞察（L1–L7）、聯絡人姓名</td>
+        <td>提供個人化的客戶背景</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">商機狀態</span></td>
+        <td>卡關類型、卡關類別、建立天數、經營狀況</td>
+        <td>描述目前的問題嚴重性</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">推薦活動</span></td>
+        <td>活動名稱、場次時間、信任類型（知道/認同/相信）</td>
+        <td>提供具體的行動建議依據</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">任務指令</span></td>
+        <td>生成一段個人化的業務突破話術，包含開場、痛點呼應、活動邀約</td>
+        <td>明確定義輸出格式與要求</td>
+      </tr>
+    </table>
+  </div>
+</section>
 
-  <!-- 話術生成 -->
-  <section>
-    <h2>業務話術生成</h2>
-    <div class="card">
-      <div class="mermaid">
-flowchart LR
-    A[客戶痛點\n需求\n洞察] --> D[Gemini AI\ngemini-2.5-pro]
-    B[卡關類型\n卡關類別\n經營狀況] --> D
-    C[推薦活動\n信任類型\n聯絡人姓名] --> D
-    D --> E[個人化業務突破話術]
-      </div>
+<!-- ═══════════════ ENGINEERING CHALLENGES ═══════════════ -->
+<section>
+  <div class="section-label">Engineering Challenges</div>
+  <h2>解決了哪些技術難題？</h2>
+  <p class="section-desc">實作過程中遇到幾個需要仔細設計才能解決的問題。</p>
+  <div class="challenge-grid">
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 1</div>
+      <h4>活動場次地區對應</h4>
+      <p>同一個活動在全台多個城市有不同場次，推薦時不能直接用「最早場次」，必須找出客戶所在地區的最近場次。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">預先建立 <code style="background:#f0fdf4;padding:1px 5px;border-radius:4px;">地區場次 dict</code>：每個活動 → 每個地區 → 最近場次日期，推薦時 O(1) 查詢</p>
     </div>
-    <div class="card">
-      <table>
-        <tr><th>項目</th><th>說明</th></tr>
-        <tr><td>AI 模型</td><td>Google Gemini 2.5 Pro（Vertex AI）</td></tr>
-        <tr><td>生成方式</td><td>Prompt Engineering（無 RAG、無 Fine-tuning）</td></tr>
-        <tr><td>執行效率</td><td>15 執行緒平行，5–8 分鐘完成 220 筆</td></tr>
-        <tr><td>快取設計</td><td>相同商機資料不重複呼叫 API（卡關判斷 + 話術各自快取）</td></tr>
-      </table>
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 2</div>
+      <h4>快取設計避免重複呼叫 API</h4>
+      <p>220 筆 × 2 次 AI 呼叫 = 440 次 API，若每天重跑費用高且耗時。需要識別哪些商機資料沒有改變。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">兩層 JSON 快取（judge_ / sales_），以商機核心屬性的 hash 值為 key，資料不變就直接命中快取</p>
     </div>
-  </section>
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 3</div>
+      <h4>最後日報日期的正確計算</h4>
+      <p>原始實作以「建立日 ±30 天」為窗口找日報，導致逾期商機（建立 >60 天）抓不到近期日報，造成「近90天有日報」卻被標為「已停止經營」的矛盾。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">最後一筆日報日期改為從<strong>全部日報取 MAX(日期)</strong>，±30 天窗口只用於計算其他互動指標</p>
+    </div>
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 4</div>
+      <h4>多帳號 AI 平行執行</h4>
+      <p>220 筆話術若依序生成需要 30–40 分鐘，遠超過業務人員每日可接受的等待時間。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">使用 <code style="background:#f0fdf4;padding:1px 5px;border-radius:4px;">ThreadPoolExecutor</code> 以 15 個執行緒平行呼叫 Vertex AI，縮短至 5–8 分鐘</p>
+    </div>
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 5</div>
+      <h4>活動類型自動分類</h4>
+      <p>活動對客戶的「信任深度」分三種：知道（認識）、認同（接受）、相信（深度認可），需要自動分類才能在 prompt 中給 AI 正確的邀約脈絡。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">關鍵字規則優先判斷，無法確定時呼叫 LLM 分類，結果快取避免重複判斷（覆蓋率 100%）</p>
+    </div>
+    <div class="challenge-item">
+      <div class="ch-label">Challenge 6</div>
+      <h4>逾期卡關的精準篩選</h4>
+      <p>「逾期卡關」需要排除完全沒有行動的 D 級商機，但 D 級的判斷依賴後續計算結果，無法在 SQL 階段直接過濾。</p>
+      <div class="arrow">↓ 解決方案</div>
+      <p class="solution">先用 SQL 撈出所有逾期卡關，在 Python 完成等級判斷後，再以 post-filter 移除 D 級（此次移除 43 筆）</p>
+    </div>
+  </div>
+</section>
 
-  <!-- 執行結果 -->
-  <section>
-    <h2>執行結果（2026-06-11）</h2>
-    <div class="stat-grid">
-      <div class="stat-card">
-        <div class="number">127</div>
-        <div class="label">現行卡關（31–60天）</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">92</div>
-        <div class="label">逾期卡關（D 級移除後）</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">219</div>
-        <div class="label">最終分析總筆數</div>
-      </div>
-      <div class="stat-card">
-        <div class="number">213</div>
-        <div class="label">需要邀約活動（97%）</div>
-      </div>
-    </div>
-    <div class="card">
-      <h3>卡關類別分布</h3>
-      <div class="bar-container">
-        <div class="bar-label"><span>沒談到高階</span><span>81.7%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:81.7%"></div></div>
-      </div>
-      <div class="bar-container">
-        <div class="bar-label"><span>信任不足</span><span>81.7%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:81.7%"></div></div>
-      </div>
-      <div class="bar-container">
-        <div class="bar-label"><span>沒參加活動</span><span>63.0%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:63%"></div></div>
-      </div>
-      <div class="bar-container">
-        <div class="bar-label"><span>場景模糊</span><span>38.9%</span></div>
-        <div class="bar-track"><div class="bar-fill" style="width:38.9%"></div></div>
-      </div>
-    </div>
-  </section>
+<!-- ═══════════════ RESULTS ═══════════════ -->
+<section>
+  <div class="section-label">Results</div>
+  <h2>執行結果（2026-06-11）</h2>
+  <p class="section-desc">每日自動執行的實際輸出，以下為最新一次的分析統計。</p>
+  <div class="stat-grid" style="margin-bottom:24px;">
+    <div class="stat-card"><div class="number">127</div><div class="label">現行卡關（31–60天）</div></div>
+    <div class="stat-card"><div class="number">43</div><div class="label">D 級逾期卡關移除</div></div>
+    <div class="stat-card"><div class="number">219</div><div class="label">最終分析總筆數</div></div>
+    <div class="stat-card"><div class="number">213</div><div class="label">推薦活動邀約（97%）</div></div>
+  </div>
 
-  <!-- 技術架構 -->
-  <section>
-    <h2>技術架構</h2>
-    <div class="card">
-      <div class="tech-stack">
-        <div class="tech-chip"><span class="icon">🐍</span> Python 3.x</div>
-        <div class="tech-chip"><span class="icon">🤖</span> Google Gemini 2.5 Pro</div>
-        <div class="tech-chip"><span class="icon">☁️</span> Vertex AI（global）</div>
-        <div class="tech-chip"><span class="icon">🗄️</span> SQL Server（ODBC）</div>
-        <div class="tech-chip"><span class="icon">📊</span> openpyxl / pandas</div>
-        <div class="tech-chip"><span class="icon">⚡</span> 15 執行緒平行</div>
-        <div class="tech-chip"><span class="icon">💾</span> JSON 快取機制</div>
+  <div class="card">
+    <h3>卡關類別分布（可多選）</h3>
+    <div style="margin-top:12px;">
+      <div class="bar-row">
+        <div class="bar-label"><span>😤 沒談到高階主管</span><span style="font-weight:700;">81.7%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:81.7%;background:var(--danger)"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>🤝 信任不足</span><span style="font-weight:700;">81.7%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:81.7%;background:var(--warning)"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>🎪 沒參加活動</span><span style="font-weight:700;">63.0%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:63%;background:var(--primary)"></div></div>
+      </div>
+      <div class="bar-row">
+        <div class="bar-label"><span>🌫️ 場景模糊</span><span style="font-weight:700;">38.9%</span></div>
+        <div class="bar-track"><div class="bar-fill" style="width:38.9%;background:var(--accent)"></div></div>
       </div>
     </div>
-  </section>
+    <p style="font-size:0.82rem;color:var(--text-muted);margin-top:14px;">
+      ※ 逾期卡關中，沒談到高階佔 81.7% 是最常見的卡關原因，與信任不足幾乎完全重疊，顯示兩者高度相關。
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════ TECH STACK ═══════════════ -->
+<section>
+  <div class="section-label">Tech Stack</div>
+  <h2>技術選型</h2>
+  <div class="tech-grid">
+    <div class="tech-item">
+      <div class="tech-icon">🐍</div>
+      <div>
+        <div class="tech-name">Python 3.x</div>
+        <div class="tech-desc">主程式語言，pandas 資料處理，ThreadPoolExecutor 平行化</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">🤖</div>
+      <div>
+        <div class="tech-name">Google Gemini 2.5 Pro</div>
+        <div class="tech-desc">卡關原因判斷 + 個人化話術生成，兩個獨立 AI 任務</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">☁️</div>
+      <div>
+        <div class="tech-name">Vertex AI (global)</div>
+        <div class="tech-desc">Google Cloud 的 AI 服務平台，穩定呼叫 Gemini API</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">🗄️</div>
+      <div>
+        <div class="tech-name">SQL Server + SQLAlchemy</div>
+        <div class="tech-desc">ODBC 連線 CRM 資料庫，pyodbc + SQLAlchemy 封裝</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">💾</div>
+      <div>
+        <div class="tech-name">JSON 快取機制</div>
+        <div class="tech-desc">兩層快取（judge_ / sales_），hash-based key 自動識別失效</div>
+      </div>
+    </div>
+    <div class="tech-item">
+      <div class="tech-icon">📊</div>
+      <div>
+        <div class="tech-name">pandas + openpyxl</div>
+        <div class="tech-desc">資料整合與 Excel 輸出，112 欄位格式化報表</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════ OUTPUT ═══════════════ -->
+<section>
+  <div class="section-label">Output</div>
+  <h2>輸出欄位（主要）</h2>
+  <div class="card">
+    <table>
+      <tr><th>類別</th><th>欄位</th><th>說明</th></tr>
+      <tr>
+        <td><span class="tag tag-blue">商機基礎</span></td>
+        <td>卡關類型、商機建立天數、客戶地區</td>
+        <td>現行卡關 / 逾期卡關，建立至今幾天，所在分區</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-purple">AI 分析</span></td>
+        <td>卡關類別（多選）、AI判斷卡關原因</td>
+        <td>四種類別可組合，加上 Gemini 文字說明</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-amber">經營狀況</span></td>
+        <td>經營狀況、最後日報距今天數</td>
+        <td>高度活躍 / 中度活躍 / 低度經營 / 已停止經營</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-red">等級評估</span></td>
+        <td>日報商機等級判斷</td>
+        <td>B（有高階接觸）/ C1（有日報）/ D（無行動）</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">AI 話術</span></td>
+        <td>業務突破話術</td>
+        <td>依每位客戶個人化生成的業務切入話術</td>
+      </tr>
+      <tr>
+        <td><span class="tag tag-green">活動推薦</span></td>
+        <td>推薦活動、時間、地區、信任類型</td>
+        <td>客戶所在地區最近場次 + 活動深度分類</td>
+      </tr>
+    </table>
+  </div>
+</section>
 
 </main>
 
 <footer>
-  <p>AiGP 卡關商機分析系統 &nbsp;|&nbsp; 最後更新：2026-06-11</p>
+  <p>
+    AiGP Opportunity Coach &nbsp;|&nbsp;
+    Built with Python + Google Gemini AI &nbsp;|&nbsp;
+    <a href="https://github.com/yujuigato/AiGP-opportunity-coach">GitHub</a>
+  </p>
+  <p style="margin-top:6px;">最後更新：2026-06-12</p>
 </footer>
 
 <script>
@@ -468,12 +673,13 @@ flowchart LR
     theme: 'base',
     themeVariables: {
       primaryColor: '#dbeafe',
-      primaryTextColor: '#1e40af',
+      primaryTextColor: '#1e3a8a',
       primaryBorderColor: '#93c5fd',
       lineColor: '#64748b',
       secondaryColor: '#f1f5f9',
-      tertiaryColor: '#fff'
-    }
+      tertiaryColor: '#ede9fe'
+    },
+    flowchart: { curve: 'monotoneX' }
   });
 </script>
 </body>
