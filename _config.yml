@@ -1,6 +1,0 @@
-theme: jekyll-theme-cayman
-title: AiGP 卡關商機分析系統
-description: 自動分析 AiGP 卡關商機，AI 生成個人化業務話術與活動推薦
-
-plugins:
-  - jekyll-mermaid
